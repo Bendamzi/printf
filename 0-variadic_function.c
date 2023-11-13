@@ -1,44 +1,51 @@
 #include "main.h"
-/**
- * _printf - produces output according to a format
- * @format: is a character string
- * Return: numbers of characters printed
- */
-int _printf(const char *format, ...)
-{
-	va_list arg;
-	int i, count = 0, value, (*func)(va_list);
 
-	va_start(arg, format);
-	i = 0;
-	while (*(format + i))
+/**
+ * _printf - prints to the standard output
+ * @format: format string
+ * Return: number of bytes printed
+ */
+
+int _printf(const char *format, ...)
+
+{
+	int add = 0;
+	va_list xy;
+	char *p, *start;
+
+	params_t params = PARAMS_INIT;
+
+	va_start(xy, format);
+
+	if (!format || (format[0] == '%' && !format[1]))
+		return (-1);
+	if (format[0] == '%' && format[1] == ' ' && !format[2])
+		return (-1);
+	for (p = (char *)format; *p; p++)
 	{
-		if (format[i] != '%')
+		init_params(&params, xy);
+		if (*p != '%')
 		{
-			value = _putchar(format[i]);
-			count += value;
-			i++;
+			add += _putchar(*p);
 			continue;
 		}
-		if (format[i] == '%')
+		start = p;
+		p++;
+		while (get_flag(p, &params))
 		{
-			func = check_specifier(&format[i + 1]);
-			if (func != NULL)
-			{
-				value = func(arg);
-				count += value;
-				i += 2;
-				continue;
-			}
-			else
-			{
-				value = _putchar(format[i]);
-				count += value;
-				i++;
-				continue;
-			}
+			p++;
 		}
+		p = get_width(p, &params, xy);
+		p = get_precision(p, &params, xy);
+		if (get_modifier(p, &params))
+			p++;
+		if (!get_specifier(p))
+			add += print_from_to(start, p,
+					params.l_modifier || params.h_modifier ? p - 1 : 0);
+		else
+			add += get_print_func(p, xy, &params);
 	}
-	va_end(arg);
-	return (count);
+	_putchar(BUF_FLUSH);
+	va_end(xy);
+	return (add);
 }
