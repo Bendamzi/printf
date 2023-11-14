@@ -1,9 +1,3 @@
-/**
- * Author: Okusanya Benjamin & Okusanya Idowu
- * A program on variadic function
- * 14/11/2023
- */
-
 #include "main.h"
 /**
  * _printf - Custom printf function
@@ -85,10 +79,15 @@ int check_specifier(const char *format, va_list args)
 	return (count);
 	}
 }
+/**
+ * print_decimal - prints decimal
+ * @num: number to print
+ * Return: the number printed
+ */
 int print_decimal(int num)
 {
 	int count = 0;
-	
+
 	if (num == 0)
 	{
 		return (count);
@@ -97,15 +96,20 @@ int print_decimal(int num)
 	count += _putchar((num % 10) + '0');
 	return (count);
 }
+/**
+ * print_int - prints integers
+ * @num: number to print
+ * Return: the number printed
+ */
 int print_int(int num)
 {
-        int count = 0;
+	int count = 0;
 
-        if (num == 0)
-        {
-                return (count);
-        }
+	if (num == 0)
+	{
+	return (count);
+	}
 	print_int(num / 10);
 	count += _putchar((num % 10) + '0');
-        return (count);
+	return (count);
 }
