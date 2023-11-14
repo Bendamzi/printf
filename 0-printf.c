@@ -68,7 +68,8 @@ int check_specifier(const char *format, va_list args)
 	case ' ':
 	return (-1);
 	default:
-	count = _putchar(*format);
+	count = _putchar('%');
+	count += _putchar(*format);
 	return (count);
 	}
 }
