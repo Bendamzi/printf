@@ -1,3 +1,9 @@
+/*
+ * Author: Okusanya Benjamin & Okusanya Idowu
+ * A program on variadic function
+ * 14/11/2023
+ */
+
 #include "main.h"
 /**
  * _printf - Custom printf function
