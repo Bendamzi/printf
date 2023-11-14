@@ -73,9 +73,39 @@ int check_specifier(const char *format, va_list args)
 	return (count);
 	case ' ':
 	return (-1);
+	case 'd':
+	count = print_decimal(va_arg(args, int));
+	return (count);
+	case 'i':
+	count = print_int(va_arg(args, int));
+	return (count);
 	default:
 	count = _putchar('%');
 	count += _putchar(*format);
 	return (count);
 	}
+}
+int print_decimal(int num)
+{
+	int count = 0;
+	
+	if (num == 0)
+	{
+		return (count);
+	}
+	print_decimal(num / 10);
+	count += _putchar((num % 10) + '0');
+	return (count);
+}
+int print_int(int num)
+{
+        int count = 0;
+
+        if (num == 0)
+        {
+                return (count);
+        }
+	print_int(num / 10);
+	count += _putchar((num % 10) + '0');
+        return (count);
 }
