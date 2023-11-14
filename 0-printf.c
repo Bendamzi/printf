@@ -23,7 +23,7 @@ int _printf(const char *format, ...)
 	}
 	else
 	{
-		count += putchar(*format);
+		count += _putchar(*format);
 	}
 	format++;
 	}
@@ -43,7 +43,7 @@ int check_specifier(const char *format, va_list args)
 	switch (*format)
 	{
 	case 'c':
-	count += _putchar(va_arg(args, int));
+	count = _putchar(va_arg(args, int));
 	return (count);
 	case 's':
 	{
@@ -54,17 +54,17 @@ int check_specifier(const char *format, va_list args)
 		write(1, "(null)", 6);
 		return (6);
 	}
-	write(1, str, strlen(str));
-	count += write(1, str, strlen(str));
+
+	count = write(1, str, strlen(str));
 	}
 	return (count);
 	case '%':
-	count += putchar('%');
+	count = _putchar('%');
 	return (count);
 	case ' ':
 	return (-1);
 	default:
-	count += putchar(*format);
+	count = _putchar(*format);
 	return (count);
 	}
 }
