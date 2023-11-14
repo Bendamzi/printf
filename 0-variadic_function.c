@@ -1,4 +1,5 @@
 #include "main.h"
+
 /**
  * _printf - Custom printf function
  * @format: Format string
@@ -7,41 +8,41 @@
  */
 int _printf(const char *format, ...)
 {
+	va_list args;
 	int count = 0;
-	va_list args_list;
 
-	va_start(args_list, format);
+	va_start(args, format);
 
-	while (*format != '\0')
+	while (format && *format)
 	{
-	if (*format == '%')
-	{
-		format++;
-		switch (*format)
+		if (*format == '%' && *(format + 1) != '\0')
 		{
-		case 'c':
-		count += _putchar(va_arg(args_list, int));
-		break;
-		case 's':
+			switch (*(format + 1))
+			{
+				case 'c':
+				count += _putchar(va_arg(args, int));
+				break;
+				case 's':
+				{
+				const char *str = va_arg(args, const char*);
+					count += write(1, str, strlen(str));
+				}
+				break;
+			case '%':
+				count += write(1, "%", 1);
+				break;
+			default:
+				count += write(1, "%", 1);
+				count += write(1, format + 1, 1);
+			}
+			format += 2; /* Move to the next character after the specifier */
+		}
+		else
 		{
-		const char *str = va_arg(args_list, const char*);
-			count += write(1, str, strlen(str));
-		}
-		break;
-		case '%':
-		count += putchar('%');
-		break;
-		default:
-		count += putchar(*format);
-		break;
+			count += write(1, format, 1);
+			format++;
 		}
 	}
-	else
-	{
-		count += putchar(*format);
-	}
-	format++;
-	}
-	va_end(args_list);
+	va_end(args);
 	return (count);
 }
