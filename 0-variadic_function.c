@@ -8,9 +8,9 @@
 int _printf(const char *format, ...)
 {
 	int count = 0;
-	va_list args_list;
+	va_list args;
 
-	va_start(args_list, format);
+	va_start(args, format);
 
 	while (*format != '\0')
 	{
@@ -20,11 +20,11 @@ int _printf(const char *format, ...)
 		switch (*format)
 		{
 		case 'c':
-		count += _putchar(va_arg(args_list, int));
+		count += _putchar(va_arg(args, int));
 		break;
 		case 's':
 		{
-		const char *str = va_arg(args_list, const char*);
+		const char *str = va_arg(args, const char*);
 			count += write(1, str, strlen(str));
 		}
 		break;
@@ -42,6 +42,6 @@ int _printf(const char *format, ...)
 	}
 	format++;
 	}
-	va_end(args_list);
+	va_end(args);
 	return (count);
 }
