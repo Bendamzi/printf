@@ -1,47 +1,34 @@
 #include "main.h"
+
 /**
- * _printf - Custom printf function
- * @format: Format string
- *
- * Return: Number of characters printed (excluding null byte)
+ * _printf - implementation of the inbuilt printf
+ * @format: the format specifier
+ * Return: the formated string
  */
+
 int _printf(const char *format, ...)
 {
-	int count = 0;
+	int printed = 0;
+
 	va_list args;
 
 	va_start(args, format);
 
 	while (*format != '\0')
 	{
-	if (*format == '%')
-	{
-		format++;
-		switch (*format)
+		if (*format == '%')
 		{
-		case 'c':
-		count += _putchar(va_arg(args, int));
-		break;
-		case 's':
+			format++;
+			printed = selector(format, args, printed);
+			format++;
+		}
+		else
 		{
-		const char *str = va_arg(args, const char*);
-			count += write(1, str, strlen(str));
+			_putchar(*format);
+			printed++;
+			format++;
 		}
-		break;
-		case '%':
-		count += putchar('%');
-		break;
-		default:
-		count += putchar(*format);
-		break;
-		}
-	}
-	else
-	{
-		count += putchar(*format);
-	}
-	format++;
 	}
 	va_end(args);
-	return (count);
+	return (printed);
 }
