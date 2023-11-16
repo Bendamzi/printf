@@ -25,4 +25,3 @@ typedef struct TypeStruct
 } TypeStruct;
 
 #endif
-
