@@ -12,27 +12,24 @@
  * Return: Num of char to print.
  */
 int print_unsigned(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
+		int flags, int width, int precision, int size)
 {
 	int i = BUFF_SIZE - 2;
-	unsigned long int num = va_arg(types, unsigned long int);
+	unsigned long int num = convert_size_unsgnd
+		(va_arg(types, unsigned long int), size);
 
-	num = convert_size_unsgnd(num, size);
-
-	if (num == 0)
-		buffer[i--] = '0';
+	if (!num)
+		buffer[i--] = '0'
+			;
 
 	buffer[BUFF_SIZE - 1] = '\0';
 
-	while (num > 0)
-	{
+	do {
 		buffer[i--] = (num % 10) + '0';
 		num /= 10;
-	}
+	} while (num);
 
-	i++;
-
-	return (write_unsgnd(0, i, buffer, flags, width, precision, size));
+	return (write_unsgnd(0, i + 1, buffer, flags, width, precision, size));
 }
 
 /* PRINT UNSIGNED NUMBER IN OCTAL */
@@ -47,7 +44,7 @@ int print_unsigned(va_list types, char buffer[],
  * Return: Amount of characaters printed
  */
 int print_octal(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
+		int flags, int width, int precision, int size)
 {
 
 	int i = BUFF_SIZE - 2;
@@ -89,10 +86,10 @@ int print_octal(va_list types, char buffer[],
  * Return: Num of characters to print
  */
 int print_hexadecimal(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
+		int flags, int width, int precision, int size)
 {
 	return (print_hexa(types, "0123456789abcdef", buffer,
-		flags, 'x', width, precision, size));
+				flags, 'x', width, precision, size));
 }
 
 /* DISPLAY UNSIGNED NUMBER IN UPPER HEXADECIMAL */
@@ -107,10 +104,10 @@ int print_hexadecimal(va_list types, char buffer[],
  * Return:  Quantity of printed characters.
  */
 int print_hexa_upper(va_list types, char buffer[],
-	int flags, int width, int precision, int size)
+		int flags, int width, int precision, int size)
 {
 	return (print_hexa(types, "0123456789ABCDEF", buffer,
-		flags, 'X', width, precision, size));
+				flags, 'X', width, precision, size));
 }
 
 /* Prints hexadecimal number either in upper or lower*/
@@ -128,7 +125,7 @@ int print_hexa_upper(va_list types, char buffer[],
  * Return: Number of printed characters
  */
 int print_hexa(va_list types, char map_to[], char buffer[],
-	int flags, char flag_ch, int width, int precision, int size)
+		int flags, char flag_ch, int width, int precision, int size)
 {
 	int i = BUFF_SIZE - 2;
 	unsigned long int num = va_arg(types, unsigned long int);
