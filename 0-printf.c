@@ -1,4 +1,5 @@
 #include "main.h"
+#include <stdio.h>
 /**
  * _printf - Custom printf function
  * @format: Format string
@@ -43,7 +44,7 @@ int _printf(const char *format, ...)
 int check_specifier(const char *format, va_list args)
 {
 	int count = 0;
-	long int num;
+	int num;
 	
 	switch (*format)
 	{
@@ -69,18 +70,37 @@ int check_specifier(const char *format, va_list args)
 	case ' ':
 	return (-1);
 	case 'd':
-	if (va_arg(args, int) < 0)
+	num = va_arg(args, int);
+	if (num < 0)
 	{
-		num = va_arg(args, long int);
-		_putchar('-');
-		 count = print_decimal(num * (-1));
+		count = _putchar('-');
+		 count += print_decimal(~num + 1);
 	 	 return (count);
 	}
-	count = print_decimal(va_arg(args, int));
-	return (count);
+	else
+	{
+		if (num > 0)
+			count = print_decimal(num);
+		else
+			count = _putchar(num + '0');
+		return (count);
+	}
 	case 'i':
-	count = print_int(va_arg(args, int));
-	return (count);
+	num = va_arg(args, int);
+	if (num < 0)
+	{
+		count = _putchar('-');
+		 count += print_int(num * (-1));
+	 	 return (count);
+	}
+	else
+	{
+		if (num > 0)
+			count = print_int(num);
+		else
+			count = _putchar(num + '0');
+		return (count);
+	}
 	default:
 	count = _putchar('%');
 	count += _putchar(*format);
@@ -100,7 +120,7 @@ int print_decimal(int num)
 	{
 		return (count);
 	}
-	print_decimal(num / 10);
+	count += print_decimal(num / 10);
 	count += _putchar((num % 10) + '0');
 	return (count);
 }
@@ -117,7 +137,7 @@ int print_int(int num)
 	{
 	return (count);
 	}
-	print_int(num / 10);
+	count += print_int(num / 10);
 	count += _putchar((num % 10) + '0');
 	return (count);
 }
