@@ -1,14 +1,15 @@
-#include <limits.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "main.h"
 
 /**
  * main - Entry point
  *
- * Return: Always 0
+ * Return: 0 on success, error code otherwise
  */
 int main(void)
 {
+<<<<<<< HEAD
     int len;
     int len2;
     unsigned int ui;
@@ -41,4 +42,19 @@ int main(void)
     _printf("Unknown:[%r]\n");
     printf("Unknown:[%r]\n");
     return (0);
+=======
+	int len, len2;
+
+	len = _printf("%!\n");
+	len2 = printf("%!\n");
+	fflush(stdout);
+	if (len != len2)
+	{
+		printf("Lengths differ.\n");
+		fflush(stdout);
+		return (1);
+	}
+	return (0);
+>>>>>>> 9b26b70afdc46a301aa5621a7665d89a32cb049b
 }
+
