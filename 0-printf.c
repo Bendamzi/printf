@@ -43,7 +43,8 @@ int _printf(const char *format, ...)
 int check_specifier(const char *format, va_list args)
 {
 	int count = 0;
-
+	long int num;
+	
 	switch (*format)
 	{
 	case 'c':
@@ -68,6 +69,13 @@ int check_specifier(const char *format, va_list args)
 	case ' ':
 	return (-1);
 	case 'd':
+	if (va_arg(args, int) < 0)
+	{
+		num = va_arg(args, long int);
+		_putchar('-');
+		 count = print_decimal(num * (-1));
+	 	 return (count);
+	}
 	count = print_decimal(va_arg(args, int));
 	return (count);
 	case 'i':
